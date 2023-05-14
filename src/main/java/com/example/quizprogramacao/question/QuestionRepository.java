@@ -7,13 +7,17 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class QuestionRepository {
+public class QuestionRepository{
 
     // Conexão com o banco de dados
     MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
@@ -41,28 +45,33 @@ public class QuestionRepository {
         // Inserindo o novo documento na coleção
         return collection.insertOne(question);
     }
-
-    public Document seachQuestionLessExecuted() {
+    public Document seachQuestionLessExecuted(){
         // Executando a consulta para buscar a pergunta menos feita
         Document perguntaMenosFeita = collection.find().sort(new BasicDBObject("quantidade", 1)).limit(1).first();
         // Fechando a conexão com o banco de dados
         mongoClient.close();
         return perguntaMenosFeita;
     }
-
     public DeleteResult deleteQuestion(String id) {
-       /* // Cria um filtro para o ID da pergunta
-        Bson filter = Filters.eq("_id", iD);*/
         // Executando a consulta para deletar a pergunta menos feita
         DeleteResult result = collection.deleteOne(new Document("_id", new ObjectId(id)));
 
         mongoClient.close();
         return result;
     }
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-    public Question seachById(String id) {
-        return null;
+    public List<Question> searchQuestionsByKeyword(String keyword) {
+        // Crie um objeto Query com a palavra-chave
+        Query query = Query.query(
+                Criteria.where("pergunta").regex(keyword, "i")
+        );
+        // Execute a operação find com a consulta
+        List<Question> questions = mongoTemplate.find(
+                query,
+                Question.class
+        );
+        return questions;
     }
-
 }
-
