@@ -53,6 +53,7 @@ public class TelaQuestions extends JanelaPadrao {
                 }
             });
         }
+        hg
         // Configurando os componentes
         labelPergunta.setBounds(50, 50, 300, 20);
         int y = 80;
