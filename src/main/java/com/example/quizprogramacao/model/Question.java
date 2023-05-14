@@ -1,4 +1,4 @@
-package com.example.quizprogramacao.question;
+package com.example.quizprogramacao.model;
 
 
 import lombok.*;
