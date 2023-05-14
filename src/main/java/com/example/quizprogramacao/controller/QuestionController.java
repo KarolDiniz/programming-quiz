@@ -1,7 +1,7 @@
 package com.example.quizprogramacao.controller;
 
 import com.example.quizprogramacao.model.Question;
-import com.example.quizprogramacao.question.QuestionRepository;
+import com.example.quizprogramacao.repository.QuestionRepository;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import org.springframework.beans.factory.annotation.Autowired;

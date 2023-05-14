@@ -1,6 +1,7 @@
-package com.example.quizprogramacao.question;
+package com.example.quizprogramacao.repository;
 
 import com.example.quizprogramacao.connection.MongoDBConnection;
+import com.example.quizprogramacao.mapper.DocumentMapper;
 import com.example.quizprogramacao.model.Question;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
@@ -19,14 +20,18 @@ import java.util.List;
 
 @Repository
 public class QuestionRepository{
-
+    // Conexão com o banco de dados
+    MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+    // Selecionando o banco de dados
+    MongoDatabase database = mongoClient.getDatabase("quiz");
     // Selecionando a coleção
-    MongoCollection<Document> collection = MongoDBConnection.getCollection("questions");
+    MongoCollection<Document> collection = database.getCollection("questions");
     // Pegar todos os documentos da coleção
-    MongoCursor<Document> cursor = MongoDBConnection.getCursor(collection);
+    MongoCursor<Document> cursor = collection.find().iterator();
+
+    // Manipular os dados do mongoDB
 
     public List<Question> listAllQuestions() {
-        MongoDBConnection.connect();
         List<Question> questions = new ArrayList<>();
         try {
             while (cursor.hasNext()) {

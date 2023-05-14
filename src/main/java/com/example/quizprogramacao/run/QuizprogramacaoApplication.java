@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @ComponentScan("com.example")
-@EnableMongoRepositories(basePackages = "com.example.quizprogramacao.question")
+@EnableMongoRepositories(basePackages = "com.example.quizprogramacao.repository")
 public class QuizprogramacaoApplication {
 
 	public static void main(String[] args) {
