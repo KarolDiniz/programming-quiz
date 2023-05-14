@@ -1,5 +1,6 @@
 package com.example.quizprogramacao.question;
 
+import com.example.quizprogramacao.connection.MongoDBConnection;
 import com.example.quizprogramacao.model.Question;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
@@ -19,17 +20,13 @@ import java.util.List;
 @Repository
 public class QuestionRepository{
 
-    // Conexão com o banco de dados
-    MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-    // Selecionando o banco de dados
-    MongoDatabase database = mongoClient.getDatabase("quiz");
     // Selecionando a coleção
-    MongoCollection<Document> collection = database.getCollection("questions");
+    MongoCollection<Document> collection = MongoDBConnection.getCollection("questions");
     // Pegar todos os documentos da coleção
-    MongoCursor<Document> cursor = collection.find().iterator();
-    // Manipular os dados do mongoDB
+    MongoCursor<Document> cursor = MongoDBConnection.getCursor(collection);
 
     public List<Question> listAllQuestions() {
+        MongoDBConnection.connect();
         List<Question> questions = new ArrayList<>();
         try {
             while (cursor.hasNext()) {
@@ -37,32 +34,36 @@ public class QuestionRepository{
             }
         } finally {
             cursor.close();
+            MongoDBConnection.close();
         }
         return questions;
     }
 
     public InsertOneResult addQuestion(Document question) {
+        MongoDBConnection.connect();
         // Inserindo o novo documento na coleção
         return collection.insertOne(question);
     }
     public Document seachQuestionLessExecuted(){
+        MongoDBConnection.connect();
         // Executando a consulta para buscar a pergunta menos feita
-        Document perguntaMenosFeita = collection.find().sort(new BasicDBObject("quantidade", 1)).limit(1).first();
+        Document questionLessExecuted = collection.find().sort(new BasicDBObject("quantidade", 1)).limit(1).first();
         // Fechando a conexão com o banco de dados
-        mongoClient.close();
-        return perguntaMenosFeita;
+        return questionLessExecuted;
     }
     public DeleteResult deleteQuestion(String id) {
+        MongoDBConnection.connect();
         // Executando a consulta para deletar a pergunta menos feita
         DeleteResult result = collection.deleteOne(new Document("_id", new ObjectId(id)));
 
-        mongoClient.close();
+        MongoDBConnection.close();
         return result;
     }
     @Autowired
     private MongoTemplate mongoTemplate;
 
     public List<Question> searchQuestionsByKeyword(String keyword) {
+        MongoDBConnection.connect();
         // Crie um objeto Query com a palavra-chave
         Query query = Query.query(
                 Criteria.where("pergunta").regex(keyword, "i")
