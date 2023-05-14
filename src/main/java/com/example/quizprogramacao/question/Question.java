@@ -25,4 +25,6 @@ public class Question {
 
     private int resposta;
 
+    private int quantidade;
+
 }

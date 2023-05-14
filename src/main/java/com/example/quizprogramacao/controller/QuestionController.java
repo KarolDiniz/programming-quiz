@@ -29,14 +29,22 @@ public class QuestionController {
         return questionRepository.addQuestion(question);
     }
 
-    @DeleteMapping("/delete")
-    public DeleteResult dropQuestion(String id) {
+    @DeleteMapping("/dropQuestion/{id}")
+    public DeleteResult deleteQuestion(String id) {
         return questionRepository.deleteQuestion(id);
     }
 
-    @GetMapping("/search")
-    public List<Question> listQuestionSpecific(String keyword){
-        return questionRepository.searchQuestionsByKeyword(keyword);
+    @GetMapping("/{id}")
+    public ResponseEntity<Question> buscarPorId(@PathVariable String id) {
+        Question pergunta = questionRepository.seachById(id);
+        if (pergunta == null) {
+            System.out.println("Não Entrou");
+            return ResponseEntity.notFound().build();
+        } else {
+            System.out.println("Entroua");
+            return ResponseEntity.ok(pergunta);
+        }
     }
 
 }
+
