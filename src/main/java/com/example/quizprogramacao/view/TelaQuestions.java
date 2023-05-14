@@ -1,14 +1,22 @@
 package com.example.quizprogramacao.view;
 
 import com.example.quizprogramacao.model.Question;
+<<<<<<< Updated upstream
 import com.example.quizprogramacao.repository.QuestionRepository;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+=======
+
+import javax.swing.*;
+import java.util.ArrayList;
+>>>>>>> Stashed changes
 import java.util.List;
 
 public class TelaQuestions extends JanelaPadrao {
+
+    List<Question> questions = new ArrayList<>();
     private JLabel labelPergunta;
     private JLabel labelResposta;
     private JRadioButton[] radioButtons;
@@ -24,6 +32,7 @@ public class TelaQuestions extends JanelaPadrao {
         questions = questionRepository.listAllQuestions();
 
         // Criando os componentes
+<<<<<<< Updated upstream
         for(int i = 0; i < questions.size();i++){
             labelPergunta = new JLabel(questions.get(i).getPergunta());
             radioButtons = new JRadioButton[questions.get(i).getOpcoes().size()];
@@ -37,6 +46,13 @@ public class TelaQuestions extends JanelaPadrao {
                 public void actionPerformed(ActionEvent e) {
                     // Verificar a resposta selecionada pelo usuário
                     int respostaSelecionada = 0;
+=======
+        labelPergunta = new JLabel("Qual é a capital do Brasil?");
+        radioButtons = new JRadioButton[4];        for (int i = 0; i < radioButtons.length; i++) {
+            radioButtons[i] = new JRadioButton("Opção " + (i + 1));
+        }
+        buttonResponder = new JButton("Responder");
+>>>>>>> Stashed changes
 
                     for (JRadioButton radioButton : radioButtons) {
                         if (radioButton.isSelected()) {
