@@ -24,16 +24,18 @@ public class UserRepository {
     // Selecionando a coleção
     MongoCollection<Document> collection = database.getCollection("users");
 
-    public InsertOneResult addUser(Document user) {
-        // Inserindo o novo documento na coleção
-        return collection.insertOne(user);
-    }
+    public InsertOneResult addUser(User user) {
+        // Criar o documento
+        Document userDocument = new Document();
+        userDocument.append("name", user.getName());
+        userDocument.append("email", user.getEmail());
+        userDocument.append("password", user.getPassword());
 
+        // Inserindo o novo documento na coleção
+        return collection.insertOne(userDocument);
+    }
     public DeleteResult deleteUser(String id) {
         // Executando a consulta para deletar a pergunta menos feita
-        DeleteResult result = collection.deleteOne(new Document("_id", new ObjectId(id)));
-
-        MongoDBConnection.close();
-        return result;
+        return collection.deleteOne(new Document("_id", new ObjectId(id)));
     }
 }

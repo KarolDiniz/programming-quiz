@@ -25,6 +25,8 @@ public class Question {
 
     private int resposta;
 
-    private int quantidade;
 
+    public boolean equals(Question question){
+        return resposta == question.resposta;
+    }
 }

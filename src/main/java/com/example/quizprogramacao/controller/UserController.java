@@ -1,5 +1,6 @@
 package com.example.quizprogramacao.controller;
 
+import com.example.quizprogramacao.model.User;
 import com.example.quizprogramacao.repository.QuestionRepository;
 import com.example.quizprogramacao.repository.UserRepository;
 import com.mongodb.client.result.DeleteResult;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository = new UserRepository();
 
     @PostMapping("/create")
-    public InsertOneResult addUser(@RequestBody Document user) {
+    public InsertOneResult addUser(@RequestBody User user) {
         return userRepository.addUser(user);
     }
 

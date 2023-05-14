@@ -1,4 +1,11 @@
 package com.example.quizprogramacao.view;
+import com.example.quizprogramacao.controller.UserController;
+import com.example.quizprogramacao.mapper.ConvertObjectToDocument;
+import com.example.quizprogramacao.model.User;
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import javax.swing.*;
 
 public class TelaUser extends JanelaPadrao {
@@ -49,12 +56,9 @@ public class TelaUser extends JanelaPadrao {
             String email = textFieldEmail.getText();
             String senha = new String(passwordFieldSenha.getPassword());
 
-            // Realizando o cadastro (simulando aqui)
-            // Você precisará substituir esta parte pelo seu código de cadastro real
-            System.out.println("Cadastro realizado:");
-            System.out.println("Nome: " + nome);
-            System.out.println("Email: " + email);
-            System.out.println("Senha: " + senha);
+            User user = new User(nome,email,senha);
+            UserController userController = new UserController();
+            userController.addUser(user);
 
             JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
         });

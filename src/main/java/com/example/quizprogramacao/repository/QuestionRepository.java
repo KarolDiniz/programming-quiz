@@ -38,19 +38,16 @@ public class QuestionRepository{
                 questions.add(DocumentMapper.map(cursor.next()));
             }
         } finally {
-            cursor.close();
-            MongoDBConnection.close();
+            //cursor.close();
         }
         return questions;
     }
 
     public InsertOneResult addQuestion(Document question) {
-        MongoDBConnection.connect();
         // Inserindo o novo documento na coleção
         return collection.insertOne(question);
     }
     public Document seachQuestionLessExecuted(){
-        MongoDBConnection.connect();
         // Executando a consulta para buscar a pergunta menos feita
         Document questionLessExecuted = collection.find().sort(new BasicDBObject("quantidade", 1)).limit(1).first();
         // Fechando a conexão com o banco de dados
