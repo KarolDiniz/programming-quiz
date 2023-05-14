@@ -1,22 +1,14 @@
 package com.example.quizprogramacao.view;
 
 import com.example.quizprogramacao.model.Question;
-<<<<<<< Updated upstream
 import com.example.quizprogramacao.repository.QuestionRepository;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-=======
-
-import javax.swing.*;
-import java.util.ArrayList;
->>>>>>> Stashed changes
 import java.util.List;
 
 public class TelaQuestions extends JanelaPadrao {
-
-    List<Question> questions = new ArrayList<>();
     private JLabel labelPergunta;
     private JLabel labelResposta;
     private JRadioButton[] radioButtons;
@@ -32,45 +24,50 @@ public class TelaQuestions extends JanelaPadrao {
         questions = questionRepository.listAllQuestions();
 
         // Criando os componentes
-<<<<<<< Updated upstream
-        for(int i = 0; i < questions.size();i++){
-            labelPergunta = new JLabel(questions.get(i).getPergunta());
-            radioButtons = new JRadioButton[questions.get(i).getOpcoes().size()];
-            for (int j = 0; j < radioButtons.length; j++) {
-                radioButtons[j] = new JRadioButton(questions.get(i).getOpcoes().get(j));
-            }
-            buttonResponder = new JButton("Responder");
-            int finalI = i;
-            buttonResponder.addActionListener(new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Verificar a resposta selecionada pelo usuário
-                    int respostaSelecionada = 0;
-=======
-        labelPergunta = new JLabel("Qual é a capital do Brasil?");
-        radioButtons = new JRadioButton[4];        for (int i = 0; i < radioButtons.length; i++) {
-            radioButtons[i] = new JRadioButton("Opção " + (i + 1));
-        }
-        buttonResponder = new JButton("Responder");
->>>>>>> Stashed changes
+        final int[] posicaoSelecionada = {-1};
+        final int[] contador = {0};
 
-                    for (JRadioButton radioButton : radioButtons) {
-                        if (radioButton.isSelected()) {
-                            respostaSelecionada = 1;
-                            break;
-                        }
-                    }
-                    // Comparar a resposta selecionada com a resposta correta
-                    if (respostaSelecionada == questions.get(finalI).getResposta()) {
-                        JOptionPane.showMessageDialog(null,"Resposta correta!");
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Resposta incorreta!");
-                    }
+        // Criando os componentes
+        labelPergunta = new JLabel(questions.get(contador[0]).getPergunta());
+        radioButtons = new JRadioButton[questions.get(contador[0]).getOpcoes().size()];
+        for (int j = 0; j < radioButtons.length; j++) {
+            int posicaoAtual = j;
+            radioButtons[j] = new JRadioButton(questions.get(contador[0]).getOpcoes().get(j));
+            radioButtons[j].addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    posicaoSelecionada[0] = posicaoAtual;
                 }
             });
         }
-        hg
-        // Configurando os componentes
+        buttonResponder = new JButton("Responder");
+        final int[] finalI = {contador[0]};
+        buttonResponder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Comparar a resposta selecionada com a resposta correta
+                if (posicaoSelecionada[0] == questions.get(finalI[0]).getResposta()) {
+                    JOptionPane.showMessageDialog(null,"Resposta correta!");
+                } else {
+                    JOptionPane.showMessageDialog(null,"Resposta incorreta!");
+                }
+
+                // Avança para a próxima pergunta
+                contador[0]++;
+                if (contador[0] < questions.size()) {
+                    labelPergunta.setText(questions.get(contador[0]).getPergunta());
+                    for (int j = 0; j < radioButtons.length; j++) {
+                        radioButtons[j].setText(questions.get(contador[0]).getOpcoes().get(j));
+                    }
+                    posicaoSelecionada[0] = -1;
+                    finalI[0] = contador[0];
+                } else {
+                    JOptionPane.showMessageDialog(null,"Fim do quiz!");
+                    // Aqui você pode implementar o que deve ser feito quando acabarem as perguntas
+                }
+            }
+        });
+
+// Configurando os componentes
         labelPergunta.setBounds(50, 50, 300, 20);
         int y = 80;
         for (int i = 0; i < radioButtons.length; i++) {
@@ -78,13 +75,12 @@ public class TelaQuestions extends JanelaPadrao {
             y += 30;
         }
         buttonResponder.setBounds(150, y, 100, 30);
-        // Adicionando os componentes à janela
-        add(labelPergunta);
 
+// Adicionando os componentes à janela
+        add(labelPergunta);
         for (JRadioButton radioButton : radioButtons) {
             add(radioButton);
         }
         add(buttonResponder);
-        setVisible(true);
     }
 }
