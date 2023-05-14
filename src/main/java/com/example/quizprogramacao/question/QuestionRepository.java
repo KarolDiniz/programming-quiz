@@ -8,12 +8,7 @@ import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,25 +50,17 @@ public class QuestionRepository{
         return perguntaMenosFeita;
     }
     public DeleteResult deleteQuestion(String id) {
+       /* // Cria um filtro para o ID da pergunta
+        Bson filter = Filters.eq("_id", iD);*/
         // Executando a consulta para deletar a pergunta menos feita
         DeleteResult result = collection.deleteOne(new Document("_id", new ObjectId(id)));
 
         mongoClient.close();
         return result;
     }
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    public List<Question> searchQuestionsByKeyword(String keyword) {
-        // Crie um objeto Query com a palavra-chave
-        Query query = Query.query(
-                Criteria.where("pergunta").regex(keyword, "i")
-        );
-        // Execute a operação find com a consulta
-        List<Question> questions = mongoTemplate.find(
-                query,
-                Question.class
-        );
-        return questions;
+    public Question seachById(String id) {
+        return null;
     }
+
 }
+
