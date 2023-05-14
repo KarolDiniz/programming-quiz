@@ -1,6 +1,6 @@
 package com.example.quizprogramacao.controller;
 
-import com.example.quizprogramacao.question.Question;
+import com.example.quizprogramacao.model.Question;
 import com.example.quizprogramacao.question.QuestionRepository;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.bson.Document;
+
 import java.util.List;
 
 
