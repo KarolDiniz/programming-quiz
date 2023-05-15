@@ -14,7 +14,6 @@ public class ConvertObjectToDocument {
 
         Document document = new Document();
         document.append("name", user.getName());
-        document.append("password", user.getPassword());
         document.append("email", user.getEmail());
         mongoTemplate.insert(document, "users");
 

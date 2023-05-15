@@ -56,5 +56,7 @@ public class TelaUser extends JanelaPadrao {
             userController.addUser(user);
 
             JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
+            this.dispose();
+            new TelaMenu();
         });
     }}
