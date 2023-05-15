@@ -25,4 +25,9 @@ public class UserController {
     public DeleteResult dropUser(String id) {
         return userRepository.deleteUser(id);
     }
+
+    public User returnUserByEmail(String email){
+        return userRepository.returnUserByEmail(email);
+    }
+
 }

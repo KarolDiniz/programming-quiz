@@ -3,14 +3,18 @@ package com.example.quizprogramacao.repository;
 import com.example.quizprogramacao.connection.MongoDBConnection;
 import com.example.quizprogramacao.mapper.DocumentMapper;
 import com.example.quizprogramacao.model.User;
+import com.example.quizprogramacao.view.TelaMenu;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +40,22 @@ public class UserRepository {
     public DeleteResult deleteUser(String id) {
         // Executando a consulta para deletar a pergunta menos feita
         return collection.deleteOne(new Document("_id", new ObjectId(id)));
+    }
+
+    public User returnUserByEmail(String email){
+        Bson filter = Filters.eq("email", email);
+        Document userDoc = collection.find(filter).first();
+        if (userDoc != null) {
+            User user = new User(
+                    userDoc.getString("name"),
+                    userDoc.getString("email")
+            );
+            // Fazer algo com o usuário encontrado
+            return user;
+        } else{
+            JOptionPane.showMessageDialog(null,"User não encontrado!");
+            new TelaMenu();
+            return null;
+        }
     }
 }

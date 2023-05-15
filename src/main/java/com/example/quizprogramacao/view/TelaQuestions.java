@@ -1,9 +1,12 @@
 package com.example.quizprogramacao.view;
 
+import com.example.quizprogramacao.model.Game;
 import com.example.quizprogramacao.model.Question;
+import com.example.quizprogramacao.model.User;
 import com.example.quizprogramacao.repository.QuestionRepository;
 import com.example.quizprogramacao.view.JanelaPadrao;
-
+import com.example.quizprogramacao.controller.GameController;
+import com.example.quizprogramacao.controller.UserController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,6 +28,11 @@ public class TelaQuestions extends JanelaPadrao {
         getContentPane().setBackground(new Color(135, 206, 250));
         QuestionRepository questionRepository = new QuestionRepository();
         questions = questionRepository.listAllQuestions();
+        UserController userController = new UserController();
+        String email = JOptionPane.showInputDialog("Informe seu email para logar ao jogo");
+        User user = userController.returnUserByEmail(email);
+        GameController gameController = new GameController();
+        Game game = new Game(user.getName(),user.getEmail(),0,0);
 
         // Criando os componentes
         final int[] posicaoSelecionada = {-1};
@@ -47,12 +55,13 @@ public class TelaQuestions extends JanelaPadrao {
         buttonResponder.addActionListener(new ActionListener() {
             int i = 0;
             int finalI = contador[i];
-
+            int acertos = 0;
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Comparar a resposta selecionada com a resposta correta
                 if (posicaoSelecionada[i] == questions.get(finalI).getResposta()) {
                     JOptionPane.showMessageDialog(null, "Resposta correta! A resposta correta é: " + questions.get(finalI).getResposta());
+                    acertos++;
                 } else {
                     JOptionPane.showMessageDialog(null, "Resposta incorreta! A resposta correta é: " + questions.get(finalI).getResposta());
                 }
@@ -68,7 +77,11 @@ public class TelaQuestions extends JanelaPadrao {
                     posicaoSelecionada[i] = -1;
                     finalI = contador[i];
                 } else {
-                    JOptionPane.showMessageDialog(null, "Fim do quiz!");
+                    JOptionPane.showMessageDialog(null, "Score: " + acertos + "\nFim do quiz!");
+                    game.setScore(acertos);
+                    gameController.addGame(game);
+                    dispose();
+                    new TelaMenu();
                     // Aqui você pode implementar o que deve ser feito quando acabarem as perguntas
                 }
             }
