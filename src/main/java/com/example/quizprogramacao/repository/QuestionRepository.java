@@ -54,18 +54,14 @@ public class QuestionRepository{
         return questionLessExecuted;
     }
     public DeleteResult deleteQuestion(String id) {
-        MongoDBConnection.connect();
         // Executando a consulta para deletar a pergunta menos feita
         DeleteResult result = collection.deleteOne(new Document("_id", new ObjectId(id)));
-
-        MongoDBConnection.close();
         return result;
     }
     @Autowired
     private MongoTemplate mongoTemplate;
 
     public List<Question> searchQuestionsByKeyword(String keyword) {
-        MongoDBConnection.connect();
         // Crie um objeto Query com a palavra-chave
         Query query = Query.query(
                 Criteria.where("pergunta").regex(keyword, "i")
