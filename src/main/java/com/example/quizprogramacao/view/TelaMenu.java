@@ -30,6 +30,7 @@ public class TelaMenu extends JanelaPadrao {
             public void actionPerformed(ActionEvent e) {
                 // Lógica para iniciar o quiz
                 JOptionPane.showMessageDialog(null, "Iniciando o quiz...");
+                dispose();
                 new TelaQuestions();
             }
         });
