@@ -2,6 +2,7 @@ package com.example.quizprogramacao.view;
 
 import com.example.quizprogramacao.model.Question;
 import com.example.quizprogramacao.repository.QuestionRepository;
+import com.example.quizprogramacao.view.JanelaPadrao;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class TelaQuestions extends JanelaPadrao {
         // Configurando a janela
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(new Color(135,206,250));
+        getContentPane().setBackground(new Color(135, 206, 250));
         QuestionRepository questionRepository = new QuestionRepository();
         questions = questionRepository.listAllQuestions();
 
@@ -32,6 +33,7 @@ public class TelaQuestions extends JanelaPadrao {
         // Criando os componentes
         labelPergunta = new JLabel(questions.get(contador[0]).getPergunta());
         radioButtons = new JRadioButton[questions.get(contador[0]).getOpcoes().size()];
+
         for (int j = 0; j < radioButtons.length; j++) {
             int posicaoAtual = j;
             radioButtons[j] = new JRadioButton(questions.get(contador[0]).getOpcoes().get(j));
@@ -42,42 +44,57 @@ public class TelaQuestions extends JanelaPadrao {
             });
         }
         buttonResponder = new JButton("Responder");
-        final int[] finalI = {contador[0]};
         buttonResponder.addActionListener(new ActionListener() {
+            int i = 0;
+            int finalI = contador[i];
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Comparar a resposta selecionada com a resposta correta
-                if (posicaoSelecionada[0] == questions.get(finalI[0]).getResposta()) {
-                    JOptionPane.showMessageDialog(null,"Resposta correta!");
+                if (posicaoSelecionada[i] == questions.get(finalI).getResposta()) {
+                    JOptionPane.showMessageDialog(null, "Resposta correta! A resposta correta é: " + questions.get(finalI).getResposta());
                 } else {
-                    JOptionPane.showMessageDialog(null,"Resposta incorreta!");
+                    JOptionPane.showMessageDialog(null, "Resposta incorreta! A resposta correta é: " + questions.get(finalI).getResposta());
                 }
 
                 // Avança para a próxima pergunta
-                contador[0]++;
-                if (contador[0] < questions.size()) {
-                    labelPergunta.setText(questions.get(contador[0]).getPergunta());
+                contador[i]++;
+                if (contador[i] < questions.size()) {
+                    labelPergunta.setText(questions.get(contador[i]).getPergunta());
                     for (int j = 0; j < radioButtons.length; j++) {
-                        radioButtons[j].setText(questions.get(contador[0]).getOpcoes().get(j));
+                        radioButtons[j].setText(questions.get(contador[i]).getOpcoes().get(j));
+                        radioButtons[j].setSelected(false);  // Deselecionar os botões
                     }
-                    posicaoSelecionada[0] = -1;
-                    finalI[0] = contador[0];
+                    posicaoSelecionada[i] = -1;
+                    finalI = contador[i];
                 } else {
-                    JOptionPane.showMessageDialog(null,"Fim do quiz!");
+                    JOptionPane.showMessageDialog(null, "Fim do quiz!");
                     // Aqui você pode implementar o que deve ser feito quando acabarem as perguntas
                 }
             }
         });
 
+// Criar o ButtonGroup para agrupar os radioButtons
+        ButtonGroup buttonGroup = new ButtonGroup();
+        for (int j = 0; j < radioButtons.length; j++) {
+            int posicaoAtual = j;
+            radioButtons[j] = new JRadioButton(questions.get(contador[0]).getOpcoes().get(j));
+            radioButtons[j].addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    posicaoSelecionada[0] = posicaoAtual;
+                }
+            });
+            buttonGroup.add(radioButtons[j]);  // Adicionar ao ButtonGroup
+        }
 // Configurando os componentes
         labelPergunta.setBounds(50, 50, 300, 20);
         int y = 80;
-        for (int i = 0; i < radioButtons.length; i++) {
-            radioButtons[i].setBounds(50, y, 300, 20);
+        for (int q = 0; q < radioButtons.length; q++) {
+            radioButtons[q].setBounds(50, y, 300, 20);
             y += 30;
         }
         buttonResponder.setBounds(150, y, 100, 30);
-        buttonResponder.setBackground(new Color(70,130,180));
+        buttonResponder.setBackground(new Color(70, 130, 180));
 
 // Adicionando os componentes à janela
         add(labelPergunta);
