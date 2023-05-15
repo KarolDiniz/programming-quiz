@@ -4,6 +4,7 @@ import com.example.quizprogramacao.model.Question;
 import com.example.quizprogramacao.repository.QuestionRepository;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -20,6 +21,7 @@ public class TelaQuestions extends JanelaPadrao {
         // Configurando a janela
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(new Color(135,206,250));
         QuestionRepository questionRepository = new QuestionRepository();
         questions = questionRepository.listAllQuestions();
 
@@ -75,6 +77,7 @@ public class TelaQuestions extends JanelaPadrao {
             y += 30;
         }
         buttonResponder.setBounds(150, y, 100, 30);
+        buttonResponder.setBackground(new Color(70,130,180));
 
 // Adicionando os componentes à janela
         add(labelPergunta);
