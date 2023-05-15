@@ -29,7 +29,6 @@ public class UserRepository {
         Document userDocument = new Document();
         userDocument.append("name", user.getName());
         userDocument.append("email", user.getEmail());
-        userDocument.append("password", user.getPassword());
 
         // Inserindo o novo documento na coleção
         return collection.insertOne(userDocument);
