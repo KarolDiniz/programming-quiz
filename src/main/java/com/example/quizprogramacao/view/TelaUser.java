@@ -67,5 +67,6 @@ public class TelaUser extends JanelaPadrao {
             this.dispose();
             new TelaMenu();
         });
+        setVisible(true);
     }
 }

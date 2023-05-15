@@ -102,5 +102,6 @@ public class TelaQuestions extends JanelaPadrao {
             add(radioButton);
         }
         add(buttonResponder);
+        setVisible(true);
     }
 }

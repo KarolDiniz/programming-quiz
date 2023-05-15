@@ -7,9 +7,6 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             TelaUser telaUser = new TelaUser();
             telaUser.setVisible(true);
-
-            TelaQuestions telaQuestions = new TelaQuestions();
-            telaQuestions.setVisible(true);
         });
     }
 }
