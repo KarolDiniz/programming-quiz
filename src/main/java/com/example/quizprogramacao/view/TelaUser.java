@@ -8,6 +8,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import javax.swing.*;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class TelaUser extends JanelaPadrao {
     private JLabel labelNome;
     private JLabel labelEmail;
@@ -20,15 +23,20 @@ public class TelaUser extends JanelaPadrao {
         super("Cadastro USER", 400, 300);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(new Color(135,206,250));
+        setResizable(false);
 
         // Criando os componentes
         labelNome = new JLabel("Nome:");
         labelEmail = new JLabel("Email:");
+        labelNome.setForeground(Color.WHITE);
+        labelEmail.setForeground(Color.WHITE);
 
         textFieldNome = new JTextField();
         textFieldEmail = new JTextField();
 
         buttonCadastrar = new JButton("Cadastrar");
+        buttonCadastrar.setBackground(new Color(70,130,180));
 
         // Configurando os componentes
         labelNome.setBounds(50, 50, 100, 20);
@@ -51,12 +59,13 @@ public class TelaUser extends JanelaPadrao {
             String nome = textFieldNome.getText();
             String email = textFieldEmail.getText();
 
-            User user = new User(nome,email);
+            User user = new User(nome, email);
             UserController userController = new UserController();
             userController.addUser(user);
 
             JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
             this.dispose();
-           // new TelaMenu();
+            new TelaMenu();
         });
-    }}
+    }
+}
