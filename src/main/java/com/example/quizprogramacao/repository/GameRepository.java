@@ -5,6 +5,9 @@ import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class GameRepository {
 
@@ -25,5 +28,28 @@ public class GameRepository {
 
         // Inserindo o novo documento na coleção
         return collection.insertOne(userDocument);
+    }
+
+    public List<Game> getAllGames() {
+        List<Game> games = new ArrayList<>();
+
+        // Buscar todos os documentos na coleção
+        FindIterable<Document> documents = collection.find();
+
+        // Iterar sobre os documentos e mapeá-los para objetos Game
+        try (MongoCursor<Document> cursor = documents.iterator()) {
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                Game game = new Game(
+                        document.getString("playerID"),
+                        document.getString("playerNome"),
+                        document.getInteger("score"),
+                        document.getInteger("wrongAnswers")
+                );
+                games.add(game);
+            }
+        }
+
+        return games;
     }
 }

@@ -25,6 +25,13 @@ public class TelaMenu extends JanelaPadrao {
         JButton btnRankingQuiz = new JButton("Ranking Quiz");
         btnRankingQuiz.setBounds(100, 120, 150, 30);
         btnRankingQuiz.setBackground(new Color(70,130,180));
+        btnRankingQuiz.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Loading ranking ...");
+                dispose();
+                new TelaRanking();
+            }
+        });
 
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBounds(100, 170, 150, 30);
@@ -32,9 +39,9 @@ public class TelaMenu extends JanelaPadrao {
 
         btnCadastrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para lidar com o evento do botão "Cadastrar"
-                JOptionPane.showMessageDialog(null, "Botão Cadastrar foi clicado.");
-                // Código adicional aqui...
+                JOptionPane.showMessageDialog(null, "Loading cadastro-user ...");
+                dispose();
+                new TelaUser();
             }
         });
                 btnIniciarQuiz.addActionListener(new ActionListener() {
@@ -43,14 +50,6 @@ public class TelaMenu extends JanelaPadrao {
                 JOptionPane.showMessageDialog(null, "Iniciando o quiz...");
                 dispose();
                 new TelaQuestions();
-            }
-        });
-
-        btnRankingQuiz.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para exibir o ranking do quiz
-                JOptionPane.showMessageDialog(null, "Exibindo o ranking do quiz...");
-                //new TelaRanking();
             }
         });
 

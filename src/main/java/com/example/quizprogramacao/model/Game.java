@@ -1,10 +1,13 @@
 package com.example.quizprogramacao.model;
 import lombok.*;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "_id")
 @Document(collection = "games")
+@Service
 public class Game {
 
     private ObjectId _id;
@@ -27,12 +31,5 @@ public class Game {
         this.playerEmail = playerEmail;
         this.score = score;
         this.wrongAnswers = wrongAnswers;
-    }
-    private MongoTemplate mongoTemplate;
-    public List<Game> returnGames(){
-        Query query = new Query();
-        query.with(Sort.by(Sort.Direction.ASC, "source"));
-        List<Game> games = mongoTemplate.find(query, Game.class);
-        return games;
     }
 }
